@@ -1,0 +1,27 @@
+service: watchlist-bot
+
+frameworkVersion: '2'
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-east-2
+  lambdaHashingVersion: '20201221'
+
+  stage: prod
+  apiName: ${self:service}--${opt:stage, self:provider.stage}
+
+  environment:
+    PUBLIC_KEY: ${env:PUBLIC_KEY}
+
+functions:
+  api:
+    handler: handler.api
+    events:
+      - httpApi:
+          path: '*'
+          method: '*'
