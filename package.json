@@ -12,6 +12,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "serverless deploy",
     "dev": "tsnd --transpile-only src/test/server.ts",
+    "register": "tsnd --transpile-only src/registration/register.ts",
     "lint": "tsc --noEmit"
   },
   "repository": {
@@ -27,7 +28,9 @@
   "devDependencies": {
     "@types/express": "^4.17.11",
     "@types/node": "^14.14.37",
+    "@types/node-fetch": "^2.5.10",
     "dotenv": "^8.2.0",
+    "node-fetch": "^2.6.1",
     "serverless-dotenv-plugin": "^3.9.0",
     "serverless-plugin-typescript": "^1.1.9",
     "ts-node-dev": "^1.1.6",

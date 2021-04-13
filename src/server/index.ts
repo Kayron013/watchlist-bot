@@ -1,7 +1,10 @@
 import express from 'express';
+import { logger } from './middleware/logger';
 import { InteractionsRouter } from './routes/interactions';
 
 export const app = express();
+
+app.use(logger);
 
 app.get('/', (req, res) => {
   res.send('hi');
