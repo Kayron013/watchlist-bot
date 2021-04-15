@@ -1,4 +1,4 @@
-import { CommandRequest } from './CommandRequest';
+import { CommandRequest } from '../types/discord';
 import fetch from 'node-fetch';
 
 export class Registrar {

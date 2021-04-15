@@ -1,7 +1,10 @@
 import { InteractionResponseType, InteractionType, verifyKeyMiddleware } from 'discord-interactions';
 import { Router } from 'express';
 import env from '../../env';
-import { echoCommand } from '../../registration/commands';
+import * as commands from '../../commands';
+import util from 'util';
+import { ApplicationCommand, CommandHandler } from '../../types/discord';
+import { isFromGuild } from '../../utils/watchlist';
 
 const route = Router();
 
@@ -11,14 +14,29 @@ route.get('/', (req, res) => {
 
 route.use(verifyKeyMiddleware(env.PUBLIC_KEY));
 
-route.post('/', (req, res) => {
-  const { body } = req;
+route.post('/', async (req, res) => {
+  const body: ApplicationCommand<any> = req.body;
+
+  console.log(util.inspect(body, false, 4));
+
   if (body.type === InteractionType.PING) {
     res.send({ type: InteractionResponseType.PONG });
   } else {
-    const resp = echoCommand.handler(body);
+    const isFromDM = !isFromGuild(body);
+    if (isFromDM) {
+      res.send('DM commands are unsupported');
+    }
+
+    const cmdName = body.data.name;
+    const handler = cmdHandlers[cmdName];
+    const resp = await handler(body);
+    console.debug({ resp });
     res.send(resp);
   }
 });
 
 export const InteractionsRouter = route;
+
+const cmdHandlers = Object.values(commands).reduce((acc, cmd) => {
+  return { ...acc, [cmd.request.name]: cmd.handler };
+}, {} as Record<string, CommandHandler<any>>);
