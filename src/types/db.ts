@@ -1,5 +1,10 @@
 import firebase from 'firebase-admin';
 
+export interface ListOwner {
+  ownerID: string;
+  createdAt: Date;
+}
+
 export interface List {
   name: string;
   description: string;
@@ -7,8 +12,10 @@ export interface List {
   createdBy: string;
 }
 
-export interface ListOwner {
-  ownerID: string;
+export interface ListItem {
+  name: string;
+  releaseDate?: Date;
+  createdBy: string;
   createdAt: Date;
 }
 

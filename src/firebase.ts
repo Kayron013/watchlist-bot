@@ -10,5 +10,8 @@ admin.initializeApp({
 });
 
 export const db = admin.firestore();
+db.settings({
+  ignoreUndefinedProperties: true,
+});
 
 export const FieldValue = admin.firestore.FieldValue;
