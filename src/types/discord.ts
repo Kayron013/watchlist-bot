@@ -96,3 +96,8 @@ export type OptionHandler<T extends AppCommandInteractionOption<any>, V extends 
 ) => Promise<CommandResponse>;
 
 type MappedOptions<T extends Readonly<CommandOption[]>> = AppCommandInteractionOption<T[number]>[];
+
+export type OptionParam<
+  T extends CommandOption,
+  Idx extends keyof T['options']
+> = T['options'][Idx] extends CommandOption ? AppCommandInteractionOption<T['options'][Idx]> : never;

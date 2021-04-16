@@ -4,7 +4,7 @@ import { msgFormat } from '../utils/discord';
 export const deleteItem: DeleteItem = async opts => {
   const query = db
     .collection(`owners/${opts.ownerID}/lists/${opts.list}/items`)
-    .orderBy('createdAt', 'desc')
+    .orderBy('createdAt')
     .offset(opts.itemNum - 1)
     .limit(1);
   const itemDocs = (await query.get()).docs;

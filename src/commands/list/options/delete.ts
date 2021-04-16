@@ -22,4 +22,4 @@ export const listDeleteHandler: OptionHandler<ListDeleteOption, ListCommand> = a
   };
 };
 
-export type ListDeleteOption = AppCommandInteractionOption<ListRequest['options'][2]>;
+export type ListDeleteOption = AppCommandInteractionOption<ListRequest['options'][3]>;

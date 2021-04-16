@@ -1,6 +1,6 @@
 import { InteractionResponseType } from 'discord-interactions';
 import { deleteItem } from '../../../db';
-import { AppCommandInteractionOption, OptionHandler } from '../../../types/discord';
+import { AppCommandInteractionOption, OptionHandler, OptionParam } from '../../../types/discord';
 import { getOwnerID } from '../../../utils/watchlist';
 import { ItemCommand, ItemRequest } from '../cmd';
 
@@ -24,8 +24,9 @@ export const itemDeleteHandler: OptionHandler<ItemDeleteOption, ItemCommand> = a
   };
 };
 
-export type ItemDeleteOption = AppCommandInteractionOption<ItemRequest['options'][1]>;
+type CmdOpt = ItemRequest['options'][1];
+export type ItemDeleteOption = AppCommandInteractionOption<CmdOpt>;
 
-type ListParam = AppCommandInteractionOption<ItemRequest['options'][1]['options'][0]>;
-type ItemParam = AppCommandInteractionOption<ItemRequest['options'][1]['options'][1]>;
+type ListParam = OptionParam<CmdOpt, 0>;
+type ItemParam = OptionParam<CmdOpt, 1>;
 type Params = [ListParam, ItemParam];

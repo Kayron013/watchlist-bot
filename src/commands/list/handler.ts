@@ -9,6 +9,8 @@ const handler: CommandHandler<ListCommand> = async cmd => {
   switch (option.name) {
     case 'all':
       return options.listAllHandler(option as options.ListOutOption, cmd);
+    case 'items':
+      return options.listItemsHandler(option as options.ListItemsOption, cmd);
     case 'add':
       return options.listAddHandler(option as options.ListAddOption, cmd);
     case 'delete':

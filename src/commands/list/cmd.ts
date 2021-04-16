@@ -7,8 +7,35 @@ const cmdReq = makeCmdReq({
   options: [
     {
       name: 'all',
+      description: 'View all watchlists',
+      type: CommandOptionType.SUB_COMMAND,
+      options: [
+        {
+          name: 'start',
+          description: 'Where to start listing from',
+          type: CommandOptionType.INTEGER,
+          required: false,
+        },
+      ],
+    },
+    {
+      name: 'items',
       description: 'View the entries in a watchlist',
       type: CommandOptionType.SUB_COMMAND,
+      options: [
+        {
+          name: 'list',
+          description: 'Name of watchlist',
+          type: CommandOptionType.STRING,
+          required: true,
+        },
+        {
+          name: 'start',
+          description: 'Where to start listing from',
+          type: CommandOptionType.INTEGER,
+          required: false,
+        },
+      ],
     },
     {
       name: 'add',

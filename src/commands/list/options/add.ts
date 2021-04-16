@@ -31,4 +31,4 @@ const formatResponse = (name: string, desc?: string) => {
   return embed;
 };
 
-export type ListAddOption = AppCommandInteractionOption<ListRequest['options'][1]>;
+export type ListAddOption = AppCommandInteractionOption<ListRequest['options'][2]>;
