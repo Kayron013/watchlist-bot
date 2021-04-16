@@ -1,15 +1,24 @@
 import { db } from '../firebase';
 import { List } from '../types/db';
 
-export const getLists: GetLists = async ownerID => {
-  const doc = await db.doc(`owners/${ownerID}`).get();
+export const getLists: GetLists = async opts => {
+  let query = db.collection(`owners/${opts.ownerID}/lists`).orderBy('createdBy', 'desc').limit(20);
 
-  if (!doc.exists) {
-    return { success: false, message: "You don't have any lists" };
+  if (opts.start) {
+    query = query.offset(opts.start);
   }
 
-  const lists = doc.get('lists') as List[];
+  const lists = (await query.get()).docs.map(d => d.data() as List);
+
+  if (lists.length === 0) {
+    return { success: false, message: "You don't have any lists." };
+  }
+
   return { success: true, data: lists };
 };
 
-type GetLists = (ownerID: string) => Promise<{ success: false; message: string } | { success: true; data: List[] }>;
+interface Opts {
+  ownerID: string;
+  start?: number;
+}
+type GetLists = (otps: Opts) => Promise<{ success: false; message: string } | { success: true; data: List[] }>;

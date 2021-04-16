@@ -17,7 +17,8 @@ route.use(verifyKeyMiddleware(env.PUBLIC_KEY));
 route.post('/', async (req, res) => {
   const body: ApplicationCommand<any> = req.body;
 
-  console.log(util.inspect(body, false, 4));
+  console.debug('\n\nIncomming Interaction...');
+  console.debug(util.inspect(body, false, Infinity));
 
   if (body.type === InteractionType.PING) {
     res.send({ type: InteractionResponseType.PONG });
@@ -30,6 +31,7 @@ route.post('/', async (req, res) => {
     const cmdName = body.data.name;
     const handler = cmdHandlers[cmdName];
     const resp = await handler(body);
+    console.debug('\n\nInteraction Response...');
     console.debug({ resp });
     res.send(resp);
   }

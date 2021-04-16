@@ -1,11 +1,11 @@
 import 'dotenv/config';
 import env from '../env';
 import { Registrar } from './Registrar';
-import { echoCommand, listCommand } from '../commands';
+import * as commands from '../commands';
 
 const REGISTER_FOR_GUILD = true;
 
-const commandsToRegister = [echoCommand, listCommand];
+const commandsToRegister = Object.values(commands);
 
 (async () => {
   const registrar = new Registrar({ ...env });

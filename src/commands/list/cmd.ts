@@ -6,7 +6,7 @@ const cmdReq = makeCmdReq({
   description: 'Manage a watchlist',
   options: [
     {
-      name: 'out',
+      name: 'all',
       description: 'View the entries in a watchlist',
       type: CommandOptionType.SUB_COMMAND,
     },
@@ -26,6 +26,19 @@ const cmdReq = makeCmdReq({
           description: 'Description of watchlist',
           type: CommandOptionType.STRING,
           required: false,
+        },
+      ],
+    },
+    {
+      name: 'delete',
+      description: 'Remove a watchlist',
+      type: CommandOptionType.SUB_COMMAND,
+      options: [
+        {
+          name: 'name',
+          description: 'Name of watchlist',
+          type: CommandOptionType.STRING,
+          required: true,
         },
       ],
     },
