@@ -1,16 +1,19 @@
 import { InteractionResponseType } from 'discord-interactions';
 import { MessageEmbed } from 'discord.js';
-import { addItem } from '../../../db';
-import { AppCommandInteractionOption, OptionHandler } from '../../../types/discord';
-import { formatDate, getOwnerID } from '../../../utils/watchlist';
-import { ItemCommand, ItemRequest } from '../cmd';
+import { Option } from './option';
+import { addItem } from '../../../../db';
+import { OptionHandler } from '../../../../types/discord';
+import { formatDate, getOwnerID } from '../../../../utils/watchlist';
+import { ItemCommand } from '../../cmd';
+import { Params } from './option';
 
-export const itemAddHandler: OptionHandler<ItemAddOption, ItemCommand> = async (opt, cmd) => {
+export const handler: OptionHandler<Option, ItemCommand> = async (opt, cmd) => {
   const ownerID = getOwnerID(cmd.guild_id);
+  const params = opt.options as Params;
 
-  const list = opt.options[0].value.trim();
-  const item = opt.options[1].value.trim();
-  const releaseDateStr = opt.options[2]?.value.trim();
+  const list = params[0].value.trim();
+  const item = params[1].value.trim();
+  const releaseDateStr = params[2]?.value.trim();
   const releaseDate = releaseDateStr ? new Date(releaseDateStr) : undefined;
 
   if (releaseDate && !releaseDate.valueOf()) {
@@ -42,5 +45,3 @@ const formatResponse = (list: string, item: string, date?: Date) => {
   }
   return embed;
 };
-
-export type ItemAddOption = AppCommandInteractionOption<ItemRequest['options'][0]>;

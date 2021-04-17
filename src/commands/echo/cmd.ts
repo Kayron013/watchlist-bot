@@ -1,7 +1,7 @@
 import { ApplicationCommand, CommandOptionType } from '../../types/discord';
 import { makeCmdReq } from '../../utils/watchlist';
 
-const cmdReq = makeCmdReq({
+export const request = makeCmdReq({
   name: 'echo',
   description: "Whatever you say, I'll say it right back",
   options: [
@@ -14,8 +14,6 @@ const cmdReq = makeCmdReq({
   ],
 } as const);
 
-export default cmdReq;
-
-type EchoRequest = typeof cmdReq;
+type EchoRequest = typeof request;
 
 export type EchoCommand = ApplicationCommand<EchoRequest>;

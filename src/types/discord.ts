@@ -88,16 +88,20 @@ export interface AppCommandInteractionOption<T extends CommandOption> {
   readonly options: T['options'] extends Readonly<CommandOption[]> ? MappedOptions<T['options']> : never;
 }
 
-export type CommandHandler<ApplicationCommand> = (cmd: ApplicationCommand) => Promise<CommandResponse>;
+type MappedOptions<T extends Readonly<CommandOption[]>> = AppCommandInteractionOption<T[number]>[];
+
+export type CommandHandler<T extends ApplicationCommand<any>> = (cmd: T) => Promise<CommandResponse> | CommandResponse;
 
 export type OptionHandler<T extends AppCommandInteractionOption<any>, V extends ApplicationCommand<any>> = (
-  opt: T extends AppCommandInteractionOption<infer R> ? T : never,
-  appCmd: V extends ApplicationCommand<infer R> ? V : never
+  opt: T,
+  appCmd: V
 ) => Promise<CommandResponse>;
-
-type MappedOptions<T extends Readonly<CommandOption[]>> = AppCommandInteractionOption<T[number]>[];
 
 export type OptionParam<
   T extends CommandOption,
   Idx extends keyof T['options']
-> = T['options'][Idx] extends CommandOption ? AppCommandInteractionOption<T['options'][Idx]> : never;
+> = T['options'][Idx] extends CommandOption
+  ? T['options'][Idx]['required'] extends false | undefined
+    ? AppCommandInteractionOption<T['options'][Idx]> | undefined
+    : AppCommandInteractionOption<T['options'][Idx]>
+  : never;

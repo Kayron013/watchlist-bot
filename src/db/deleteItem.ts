@@ -1,4 +1,5 @@
 import { db } from '../firebase';
+import { ListItem } from '../types/db';
 import { msgFormat } from '../utils/discord';
 
 export const deleteItem: DeleteItem = async opts => {
@@ -7,15 +8,18 @@ export const deleteItem: DeleteItem = async opts => {
     .orderBy('createdAt')
     .offset(opts.itemNum - 1)
     .limit(1);
+
   const itemDocs = (await query.get()).docs;
 
   if (!itemDocs.length) {
     return { success: false, message: 'Invalid item' };
   }
 
+  const item = itemDocs[0].data() as ListItem;
+
   await itemDocs[0].ref.delete();
 
-  return { success: true, data: `${msgFormat.code(opts.list)} has been deleted from ${msgFormat.code(opts.list)}.` };
+  return { success: true, data: `${msgFormat.code(item.name)} has been deleted from ${msgFormat.code(opts.list)}.` };
 };
 
 interface Opts {

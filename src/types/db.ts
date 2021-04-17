@@ -25,4 +25,3 @@ export type DB<T extends Object> = {
 };
 
 type Timestamp = firebase.firestore.Timestamp;
-type l = DB<ListItem>;

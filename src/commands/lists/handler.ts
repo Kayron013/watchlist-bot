@@ -1,17 +1,17 @@
 import { InteractionResponseType } from 'discord-interactions';
 import { MessageEmbed } from 'discord.js';
-import { getLists } from '../../../db/getLists';
-import { List } from '../../../types/db';
-import { AppCommandInteractionOption, OptionHandler, OptionParam } from '../../../types/discord';
-import { msgFormat } from '../../../utils/discord';
-import { getOwnerID } from '../../../utils/watchlist';
-import { ListCommand, ListRequest } from '../cmd';
+import { getLists } from '../../db/getLists';
+import { List } from '../../types/db';
+import { CommandHandler } from '../../types/discord';
+import { msgFormat } from '../../utils/discord';
+import { getOwnerID } from '../../utils/watchlist';
+import { ListsCommand, Params } from './cmd';
 
-export const listAllHandler: OptionHandler<ListOutOption, ListCommand> = async (opt, cmd) => {
+export const handler: CommandHandler<ListsCommand> = async cmd => {
   const ownerID = getOwnerID(cmd.guild_id);
-  const options = opt.options as Params;
+  const options = cmd.data?.options as Params;
 
-  const _start = options?.[0].value;
+  const _start = options?.[0]?.value;
   const start = _start && _start > 0 ? _start : 1;
 
   const res = await getLists({ ownerID, start });
@@ -28,8 +28,6 @@ export const listAllHandler: OptionHandler<ListOutOption, ListCommand> = async (
   };
 };
 
-export type ListOutOption = AppCommandInteractionOption<CmdOpt>;
-
 const formatResponse = (lists: List[], start: number) => {
   const embed = new MessageEmbed().setColor('#0099ff').setTitle('All Watchlists');
   lists.forEach((list, idx) =>
@@ -37,6 +35,3 @@ const formatResponse = (lists: List[], start: number) => {
   );
   return embed;
 };
-
-type CmdOpt = ListRequest['options'][0];
-type Params = [OptionParam<CmdOpt, 0>] | undefined;

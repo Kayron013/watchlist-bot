@@ -1,27 +1,24 @@
 import { InteractionResponseType } from 'discord-interactions';
 import { CommandHandler } from '../../types/discord';
+import { getOptHandlers } from '../../utils/watchlist';
 import { ListCommand } from './cmd';
 import * as options from './options';
 
-const handler: CommandHandler<ListCommand> = async cmd => {
+export const handler: CommandHandler<ListCommand> = async cmd => {
   const option = cmd.data.options[0];
 
-  switch (option.name) {
-    case 'all':
-      return options.listAllHandler(option as options.ListOutOption, cmd);
-    case 'items':
-      return options.listItemsHandler(option as options.ListItemsOption, cmd);
-    case 'add':
-      return options.listAddHandler(option as options.ListAddOption, cmd);
-    case 'delete':
-      return options.listDeleteHandler(option as options.ListDeleteOption, cmd);
-    default:
-      return {
-        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-        data: {
-          content: 'Unsupported Command',
-        },
-      };
+  const optHandler = optHandlers[option.name];
+
+  if (!optHandler) {
+    return {
+      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+      data: {
+        content: 'Unsupported Command',
+      },
+    };
   }
+
+  return optHandler(option, cmd);
 };
-export default handler;
+
+const optHandlers = getOptHandlers(options);

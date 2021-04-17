@@ -1,10 +1,10 @@
 import { InteractionResponseType, InteractionType, verifyKeyMiddleware } from 'discord-interactions';
 import { Router } from 'express';
-import env from '../../env';
-import * as commands from '../../commands';
 import util from 'util';
-import { ApplicationCommand, CommandHandler } from '../../types/discord';
-import { isFromGuild } from '../../utils/watchlist';
+import * as commands from '../../commands';
+import env from '../../env';
+import { ApplicationCommand } from '../../types/discord';
+import { getCmdHandlers, isFromGuild } from '../../utils/watchlist';
 
 const route = Router();
 
@@ -39,6 +39,4 @@ route.post('/', async (req, res) => {
 
 export const InteractionsRouter = route;
 
-const cmdHandlers = Object.values(commands).reduce((acc, cmd) => {
-  return { ...acc, [cmd.request.name]: cmd.handler };
-}, {} as Record<string, CommandHandler<any>>);
+const cmdHandlers = getCmdHandlers(commands);
