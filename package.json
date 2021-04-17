@@ -15,6 +15,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "serverless deploy",
+    "deploy:functions": "cd functions && npm run deploy",
     "dev": "tsnd --transpile-only src/test/index.ts",
     "register": "tsnd --transpile-only src/registration/register.ts",
     "lint": "tsc --noEmit"
