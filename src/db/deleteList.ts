@@ -1,8 +1,9 @@
 import { db } from '../firebase';
+import { DbFunc, DocRef, List } from '../types/db';
 import { msgFormat } from '../utils/discord';
 
-export const deleteList: GetLists = async opts => {
-  const listRef = db.doc(`owners/${opts.ownerID}/lists/${opts.name}`);
+export const deleteList: DbFunc<Opts, string> = async opts => {
+  const listRef = db.doc(`owners/${opts.ownerID}/lists/${opts.name}`) as DocRef<List>;
   const listDoc = await listRef.get();
 
   if (!listDoc.exists) {
@@ -18,5 +19,3 @@ interface Opts {
   name: string;
   ownerID: string;
 }
-
-type GetLists = (opts: Opts) => Promise<{ success: false; message: string } | { success: true; data: string }>;

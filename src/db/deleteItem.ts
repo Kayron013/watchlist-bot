@@ -1,13 +1,13 @@
 import { db } from '../firebase';
-import { ListItem } from '../types/db';
+import { CollRef, DbFunc, ListItem } from '../types/db';
 import { msgFormat } from '../utils/discord';
 
-export const deleteItem: DeleteItem = async opts => {
+export const deleteItem: DbFunc<Opts, string> = async opts => {
   const query = db
     .collection(`owners/${opts.ownerID}/lists/${opts.list}/items`)
     .orderBy('createdAt')
     .offset(opts.itemNum - 1)
-    .limit(1);
+    .limit(1) as CollRef<ListItem>;
 
   const itemDocs = (await query.get()).docs;
 
@@ -15,7 +15,7 @@ export const deleteItem: DeleteItem = async opts => {
     return { success: false, message: 'Invalid item' };
   }
 
-  const item = itemDocs[0].data() as ListItem;
+  const item = itemDocs[0].data();
 
   await itemDocs[0].ref.delete();
 
@@ -27,5 +27,3 @@ interface Opts {
   itemNum: number;
   ownerID: string;
 }
-
-type DeleteItem = (opts: Opts) => Promise<{ success: false; message: string } | { success: true; data: string }>;

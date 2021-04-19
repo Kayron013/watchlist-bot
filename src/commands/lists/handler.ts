@@ -1,7 +1,7 @@
 import { InteractionResponseType } from 'discord-interactions';
 import { MessageEmbed } from 'discord.js';
 import { getLists } from '../../db/getLists';
-import { List } from '../../types/db';
+import { DB, List } from '../../types/db';
 import { CommandHandler } from '../../types/discord';
 import { msgFormat } from '../../utils/discord';
 import { getOwnerID } from '../../utils/watchlist';
@@ -28,7 +28,7 @@ export const handler: CommandHandler<ListsCommand> = async cmd => {
   };
 };
 
-const formatResponse = (lists: List[], start: number) => {
+const formatResponse = (lists: DB<List>[], start: number) => {
   const embed = new MessageEmbed().setColor('#0099ff').setTitle('All Watchlists');
   lists.forEach((list, idx) =>
     embed.addField(`${idx + start}. ${list.name}`, list.description ? msgFormat.italic(list.description) : '\u200b')

@@ -1,18 +1,16 @@
 import { db, FieldValue } from '../firebase';
-import { ListItem } from '../types/db';
+import { DbFunc, DocRef, ListItem } from '../types/db';
 
-export const addItem: AddItem = async opts => {
+export const addItem: DbFunc<Opts, string> = async opts => {
   try {
-    const itemRef = db.collection(`owners/${opts.ownerID}/lists/${opts.list}/items`).doc();
+    const itemRef = db.collection(`owners/${opts.ownerID}/lists/${opts.list}/items`).doc() as DocRef<ListItem>;
 
-    const itemData: ListItem = {
+    await itemRef.create({
       name: opts.item,
       releaseDate: opts.releaseDate,
       createdAt: (FieldValue.serverTimestamp() as unknown) as Date,
       createdBy: opts.userID,
-    };
-
-    await itemRef.create(itemData);
+    });
 
     return { success: true, data: 'Item Added!' };
   } catch (e) {
@@ -28,5 +26,3 @@ interface Opts {
   ownerID: string;
   userID: string;
 }
-
-type AddItem = (opts: Opts) => Promise<{ success: false; message: string } | { success: true; data: string }>;
