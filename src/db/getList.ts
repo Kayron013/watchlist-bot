@@ -3,7 +3,7 @@ import { DB, DbFunc, DocRef, List } from '../types/db';
 import { msgFormat } from '../utils/discord';
 
 export const getList: DbFunc<Opts, DB<List>> = async opts => {
-  let query = db.doc(`owners/${opts.ownerID}/lists`) as DocRef<DB<List>>;
+  let query = db.doc(`owners/${opts.ownerID}/lists/${opts.name}`) as DocRef<DB<List>>;
 
   const list = (await query.get()).data();
 
