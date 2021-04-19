@@ -6,6 +6,7 @@ import { OptionHandler } from '../../../../types/discord';
 import { formatDate, getOwnerID } from '../../../../utils/watchlist';
 import { ItemCommand } from '../../cmd';
 import { Params } from './option';
+import { getList } from '../../../../db/getList';
 
 export const handler: OptionHandler<Option, ItemCommand> = async (opt, cmd) => {
   const ownerID = getOwnerID(cmd.guild_id);
@@ -20,6 +21,15 @@ export const handler: OptionHandler<Option, ItemCommand> = async (opt, cmd) => {
     return {
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: { content: 'Release date is invalid.' },
+    };
+  }
+
+  const listRes = await getList({ ownerID, name: list });
+
+  if (!listRes.success) {
+    return {
+      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+      data: { content: listRes.message },
     };
   }
 
