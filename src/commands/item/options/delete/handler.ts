@@ -11,7 +11,7 @@ export const handler: OptionHandler<Option, ItemCommand> = async (opt, cmd) => {
   const params = opt.options as Params;
 
   const list = params[0].value.trim();
-  const itemNum = params[1].value;
+  const itemNum = Math.max(params[1].value, 1);
 
   const listRes = await getList({ ownerID, name: list });
 

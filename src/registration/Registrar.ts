@@ -35,7 +35,7 @@ export class Registrar {
     return data.access_token as string;
   }
 
-  async registerCommand(cmd: CommandRequest, guildOnly = false) {
+  async registerCommand(cmd: CommandRequest, guildOnly: boolean) {
     const url = guildOnly ? this.GUILD_URL : this.GLOBAL_URL;
 
     const token = await this.getToken();
@@ -51,18 +51,31 @@ export class Registrar {
     });
   }
 
-  async deleteCommand(cmdID: string | number, guildOnly = false) {
-    const url = `${guildOnly ? this.GUILD_URL : this.GLOBAL_URL}/cmdID`;
+  async deleteCommand(cmdID: string | number, guildOnly: boolean) {
+    const url = `${guildOnly ? this.GUILD_URL : this.GLOBAL_URL}/${cmdID}`;
 
     const token = await this.getToken();
 
     return fetch(url, {
       headers: {
         authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
         accept: 'application/json',
       },
       method: 'DELETE',
+    });
+  }
+
+  async getCommands(guildOnly: boolean) {
+    const url = `${guildOnly ? this.GUILD_URL : this.GLOBAL_URL}`;
+
+    const token = await this.getToken();
+
+    return fetch(url, {
+      headers: {
+        authorization: `Bearer ${token}`,
+        accept: 'application/json',
+      },
+      method: 'GET',
     });
   }
 }

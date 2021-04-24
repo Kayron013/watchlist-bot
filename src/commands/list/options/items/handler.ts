@@ -4,7 +4,7 @@ import { getListItems } from '../../../../db';
 import { DB, ListItem } from '../../../../types/db';
 import { OptionHandler } from '../../../../types/discord';
 import { msgFormat } from '../../../../utils/discord';
-import { formatDate, getOwnerID } from '../../../../utils/watchlist';
+import { formatDate, getOwnerID, invlidInputResponse, paramsExist } from '../../../../utils/watchlist';
 import { ListCommand } from '../../cmd';
 import { Option, Params } from './option';
 
@@ -13,8 +13,12 @@ export const handler: OptionHandler<Option, ListCommand> = async (opt, cmd) => {
   const options = opt.options as Params;
 
   const list = options[0].value;
-  const _start = options[1]?.value;
-  const start = _start && _start > 0 ? _start : 1;
+  const _start = options[1]?.value || 1;
+  const start = Math.max(_start, 1);
+
+  if (!paramsExist(list)) {
+    return invlidInputResponse;
+  }
 
   const res = await getListItems({ ownerID, list, start });
   if (!res.success) {

@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import env from '../env';
 import { Registrar } from './Registrar';
 import * as commands from '../commands';
@@ -10,6 +9,14 @@ const commandsToRegister = Object.values(commands);
 
 (async () => {
   const registrar = new Registrar({ ...env });
+
+  if (false) {
+    const commands = await registrar.getCommands(REGISTER_FOR_GUILD).then(r => r.json());
+    for (const cmd of commands) {
+      await registrar.deleteCommand(cmd.id, REGISTER_FOR_GUILD);
+    }
+    return;
+  }
 
   for (const cmd of commandsToRegister) {
     const res = await registrar.registerCommand(cmd.request, REGISTER_FOR_GUILD);

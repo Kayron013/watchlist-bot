@@ -8,7 +8,7 @@ import { getCmdHandlers, isFromGuild } from '../../utils/watchlist';
 
 const route = Router();
 
-route.get('/', (req, res) => {
+route.get('/', (_, res) => {
   res.send('Thanks for interacting!');
 });
 
@@ -30,6 +30,12 @@ route.post('/', async (req, res) => {
 
     const cmdName = body.data.name;
     const handler = cmdHandlers[cmdName];
+    if (!handler) {
+      return res.send({
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        data: { content: 'Unsupported Command' },
+      });
+    }
     const resp = await handler(body);
     console.debug('\n\nInteraction Response...');
     console.debug({ resp });
