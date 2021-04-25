@@ -85,5 +85,6 @@ describe('LexoRank - Between', () => {
     expect(LexoRank.between('1a1', '1a11').value).toBe('1a101');
     expect(LexoRank.between('z4', 'z41').value).toBe('z401');
     expect(LexoRank.between('z4', 'z401').value).toBe('z4001');
+    expect(LexoRank.between('z401', 'z40100001').value).toBe('z401000001');
   });
 });
