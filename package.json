@@ -18,7 +18,8 @@
     "deploy:functions": "cd functions && npm run deploy",
     "dev": "tsnd --transpile-only src/test/server.ts",
     "register": "tsnd --transpile-only src/registration/register.ts",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "update-submodules": "git submodule update --remote --merge"
   },
   "repository": {
     "type": "git",

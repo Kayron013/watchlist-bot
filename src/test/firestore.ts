@@ -1,9 +1,8 @@
-// @ts-nocheck
-import { addItem } from '../db';
+import { addItem, reorderItem } from '../db';
 import { addList } from '../db/addList';
 
 export const firestoreTest = async () => {
-  await tAddListItems();
+  await tReorderItem();
 };
 
 const tAddList = async () => {
@@ -38,6 +37,16 @@ const tAddListItems = async () => {
     list: 'movies',
     ownerID: 'G-1231234231',
     userID: '31242312',
+  });
+  console.log({ res });
+};
+
+const tReorderItem = async () => {
+  const res = await reorderItem({
+    list: 'movies',
+    ownerID: 'G-1231234231',
+    fromPos: 2,
+    toPos: 7,
   });
   console.log({ res });
 };
