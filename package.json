@@ -13,7 +13,7 @@
   "description": "Discord bot for maintain a lists of movies and shows and keeping track of watch status.",
   "main": "handler.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "tsnd --transpile-only src/test/index.ts",
     "deploy": "serverless deploy",
     "deploy:functions": "cd functions && npm run deploy",
     "dev": "tsnd --transpile-only src/test/server.ts",

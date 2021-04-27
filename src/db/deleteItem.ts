@@ -1,5 +1,5 @@
 import { db } from '../firebase';
-import { CollRef, DbFunc, ListItem } from '../types/db';
+import { QueryRef, DbFunc, ListItem } from '../types/db';
 import { msgFormat } from '../utils/discord';
 
 export const deleteItem: DbFunc<Opts, string> = async opts => {
@@ -7,7 +7,7 @@ export const deleteItem: DbFunc<Opts, string> = async opts => {
     .collection(`owners/${opts.ownerID}/lists/${opts.list}/items`)
     .orderBy('createdAt')
     .offset(opts.itemNum - 1)
-    .limit(1) as CollRef<ListItem>;
+    .limit(1) as QueryRef<ListItem>;
 
   const itemDocs = (await query.get()).docs;
 

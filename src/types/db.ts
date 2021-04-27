@@ -10,6 +10,7 @@ export interface List {
   description: string;
   createdAt: Date;
   createdBy: string;
+  bucket: string;
 }
 
 export interface ListItem {
@@ -17,6 +18,7 @@ export interface ListItem {
   releaseDate?: Date;
   createdBy: string;
   createdAt: Date;
+  rank: string;
 }
 
 export type DbFunc<T extends {}, V> = (
@@ -31,4 +33,5 @@ export type DB<T extends Object> = {
 type Timestamp = firebase.firestore.Timestamp;
 
 export type DocRef<T> = firebase.firestore.DocumentReference<T>;
-export type CollRef<T> = firebase.firestore.Query<T>;
+export type CollRef<T> = firebase.firestore.CollectionReference<T>;
+export type QueryRef<T> = firebase.firestore.Query<T>;

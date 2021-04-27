@@ -10,6 +10,7 @@ export const addList: DbFunc<Opts, string> = async opts => {
       description: opts.description || '',
       createdAt: (FieldValue.serverTimestamp() as unknown) as Date,
       createdBy: opts.userID,
+      bucket: '0',
     });
 
     return { success: true, data: 'List Added!' };

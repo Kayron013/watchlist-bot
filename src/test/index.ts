@@ -1,2 +1,4 @@
 // @ts-nocheck
-import { addListTest } from './firestore';
+import { firestoreTest } from './firestore';
+
+firestoreTest();
