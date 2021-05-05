@@ -1,7 +1,7 @@
 import { handler } from './handler';
 import { request } from './cmd';
 
-export const listsCommand = {
+export default {
   handler,
   request,
 };

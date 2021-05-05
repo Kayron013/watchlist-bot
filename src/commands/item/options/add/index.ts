@@ -1,7 +1,7 @@
 import { handler } from './handler';
 import { request } from './option';
 
-export const itemAddOption = {
+export default {
   handler,
   request,
 };
