@@ -10,4 +10,5 @@ export default {
   SA_PROJECT_ID: process.env.SA_PROJECT_ID!,
   SA_PRIVATE_KEY: process.env.SA_PRIVATE_KEY!.replace(/\\n/g, '\n'),
   ADMIN_UID: process.env.ADMIN_UID!,
+  PORT: process.env.PORT,
 };

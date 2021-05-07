@@ -11,6 +11,7 @@ export interface List {
   createdAt: Date;
   createdBy: string;
   bucket: string;
+  isLocked: boolean;
 }
 
 export interface ListItem {

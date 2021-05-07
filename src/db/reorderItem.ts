@@ -1,5 +1,6 @@
 import { db } from '../firebase';
-import { DbFunc, ListItem, QueryRef } from '../types/db';
+import { DbFunc, DocRef, List, ListItem, QueryRef } from '../types/db';
+import { msgFormat } from '../utils/discord';
 import LexoRank from '../utils/LexoRank/src';
 
 export const reorderItem: DbFunc<Opts, string> = async opts => {
@@ -12,7 +13,8 @@ export const reorderItem: DbFunc<Opts, string> = async opts => {
   }
 
   try {
-    const itemsRef = db.collection(`owners/${opts.ownerID}/lists/${opts.list}/items`);
+    const listRef = db.doc(`owners/${opts.ownerID}/lists/${opts.list}`) as DocRef<List>;
+    const itemsRef = listRef.collection(`items`);
 
     const itemQuery = itemsRef
       .orderBy('rank')
@@ -25,6 +27,18 @@ export const reorderItem: DbFunc<Opts, string> = async opts => {
       .limit(opts.toPos === 1 ? 1 : 2) as QueryRef<ListItem>; // there won't be a before item if moving to pos 1
 
     return db.runTransaction(async t => {
+      const list = (await t.get(listRef)).data();
+
+      if (!list) {
+        return { success: false as const, message: `You don't have a list named ${msgFormat.code(opts.list)}.` };
+      }
+
+      if (list.isLocked) {
+        return {
+          success: false as const,
+          message: `This list is currently locked for normalization. Please try again in a moment`,
+        };
+      }
       const itemDoc = (await t.get(itemQuery)).docs[0];
 
       if (!itemDoc) {

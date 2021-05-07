@@ -1,20 +1,37 @@
 import { db } from '../firebase';
-import { QueryRef, DB, DbFunc, ListItem } from '../types/db';
+import { QueryRef, DB, DbFunc, ListItem, DocRef, List } from '../types/db';
+import { msgFormat } from '../utils/discord';
 
 export const getListItems: DbFunc<Opts, DB<ListItem>[]> = async opts => {
-  let query = db
-    .collection(`owners/${opts.ownerID}/lists/${opts.list}/items`)
-    .orderBy('createdAt')
+  const listRef = db.doc(`owners/${opts.ownerID}/lists/${opts.list}`) as DocRef<List>;
+  let itemsQuery = listRef
+    .collection(`items`)
+    .orderBy('rank')
     .offset(opts.start - 1)
     .limit(20) as QueryRef<DB<ListItem>>;
 
-  const lists = (await query.get()).docs.map(d => d.data());
+  return db.runTransaction(async t => {
+    const list = (await t.get(listRef)).data();
 
-  if (lists.length === 0) {
-    return { success: false, message: 'No items found.' };
-  }
+    if (!list) {
+      return { success: false, message: `You don't have a list named ${msgFormat.code(opts.list)}.` };
+    }
 
-  return { success: true, data: lists };
+    if (list.isLocked) {
+      return {
+        success: false,
+        message: `This list is currently locked for normalization. Please try again in a moment`,
+      };
+    }
+
+    const lists = (await t.get(itemsQuery)).docs.map(d => d.data());
+
+    if (lists.length === 0) {
+      return { success: false, message: 'No items found.' };
+    }
+
+    return { success: true, data: lists };
+  });
 };
 
 interface Opts {

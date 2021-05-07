@@ -1,7 +1,7 @@
 import { Server } from 'http';
 import { app } from '../server';
 
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
 const server = new Server(app);
 

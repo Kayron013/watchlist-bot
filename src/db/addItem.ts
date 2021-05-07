@@ -1,5 +1,6 @@
 import { db, FieldValue } from '../firebase';
 import { CollRef, DbFunc, DocRef, List, ListItem } from '../types/db';
+import { msgFormat } from '../utils/discord';
 import LexoRank from '../utils/LexoRank/src';
 
 export const addItem: DbFunc<Opts, string> = async opts => {
@@ -9,7 +10,20 @@ export const addItem: DbFunc<Opts, string> = async opts => {
     const newItemRef = itemsRef.doc();
     const lastItemRef = itemsRef.orderBy('rank', 'desc').limit(1);
 
-    await db.runTransaction(async t => {
+    return db.runTransaction(async t => {
+      const list = (await t.get(listRef)).data();
+
+      if (!list) {
+        return { success: false, message: `You don't have a list named ${msgFormat.code(opts.list)}.` };
+      }
+
+      if (list.isLocked) {
+        return {
+          success: false,
+          message: `This list is currently locked for normalization. Please try again in a moment`,
+        };
+      }
+
       const lastItemDoc = (await t.get(lastItemRef)).docs[0];
       const rank = lastItemDoc ? LexoRank.from(lastItemDoc.get('rank')).increment() : new LexoRank('1');
 
@@ -27,9 +41,9 @@ export const addItem: DbFunc<Opts, string> = async opts => {
           bucket: '0',
         });
       }
-    });
 
-    return { success: true, data: 'Item Added!' };
+      return { success: true, data: 'Item Added!' };
+    });
   } catch (e) {
     console.error({ e });
     return { success: false, message: 'Failed to add the item.' };

@@ -57,7 +57,7 @@ export const formatDate = (d: Date) => {
 
 export const paramsExist = (...params: (string | number)[]) => {
   const invalid = params.find(p => p === null || p === undefined || p == '');
-  return Boolean(invalid);
+  return Boolean(!invalid);
 };
 
 export const invlidInputResponse: CommandResponse = {
