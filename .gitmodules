@@ -1,6 +1,0 @@
-[submodule "src/utils/LexoRank"]
-	path = src/utils/LexoRank
-	url = https://github.com/Kayron013/LexoRank.git
-[submodule "functions/src/utils/LexoRank"]
-	path = functions/src/utils/LexoRank
-	url = https://github.com/Kayron013/LexoRank.git
