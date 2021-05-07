@@ -1,7 +1,7 @@
 import { firestore } from 'firebase-admin';
 import { firestore as f, logger } from 'firebase-functions';
 import { db } from '../utils/firebase';
-import LexoRank from '../utils/LexoRank/src';
+import LexoRank from '@kayron013/lexorank';
 
 const RANK_THRESHOLD = 10;
 const BATCH_SIZE = 100;

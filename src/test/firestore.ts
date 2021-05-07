@@ -5,7 +5,7 @@ export const firestoreTest = async () => {
   await tReorderItem();
 };
 
-const tAddList = async () => {
+export const tAddList = async () => {
   const res = await addList({
     name: 'movies',
     ownerID: 'G-1231234231',
@@ -15,7 +15,7 @@ const tAddList = async () => {
   console.log({ res });
 };
 
-const tAddListItems = async () => {
+export const tAddListItems = async () => {
   let res = await addItem({
     item: 'Death Note',
     list: 'movies',
@@ -41,7 +41,7 @@ const tAddListItems = async () => {
   console.log({ res });
 };
 
-const tReorderItem = async () => {
+export const tReorderItem = async () => {
   const res = await reorderItem({
     list: 'movies',
     ownerID: 'G-1231234231',

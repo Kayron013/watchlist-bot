@@ -1,7 +1,7 @@
 import { db } from '../firebase';
 import { DbFunc, DocRef, List, ListItem, QueryRef } from '../types/db';
 import { msgFormat } from '../utils/discord';
-import LexoRank from '../utils/LexoRank/src';
+import LexoRank from '@kayron013/lexorank';
 
 export const reorderItem: DbFunc<Opts, string> = async opts => {
   if (opts.fromPos <= 0 || opts.toPos <= 0) {

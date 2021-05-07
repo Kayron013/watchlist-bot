@@ -1,7 +1,7 @@
 import { db, FieldValue } from '../firebase';
 import { CollRef, DbFunc, DocRef, List, ListItem } from '../types/db';
 import { msgFormat } from '../utils/discord';
-import LexoRank from '../utils/LexoRank/src';
+import LexoRank from '@kayron013/lexorank';
 
 export const addItem: DbFunc<Opts, string> = async opts => {
   try {
