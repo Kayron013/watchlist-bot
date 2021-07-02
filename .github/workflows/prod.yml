@@ -1,0 +1,40 @@
+name: serverless-deploy
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: master
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Run tests
+        run: npm run lint
+
+      - name: Install serverless
+        run: npm i -D serverless
+
+      - name: Serverless build and deploy
+        run: npm run deploy
+        env:
+          PUBLIC_KEY: ${{ secrets.PUBLIC_KEY}}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET}}
+          CLIENT_ID: ${{ secrets.CLIENT_ID}}
+          APPLICATION_ID: ${{ secrets.APPLICATION_ID}}
+          GUILD_ID: ${{ secrets.GUILD_ID}}
+          SA_CLIENT_EMAIL: ${{ secrets.SA_CLIENT_EMAIL}}
+          SA_PROJECT_ID: ${{ secrets.SA_PROJECT_ID}}
+          SA_PRIVATE_KEY: ${{ secrets.SA_PRIVATE_KEY}}
+
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}

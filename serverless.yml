@@ -17,6 +17,13 @@ provider:
 
   environment:
     PUBLIC_KEY: ${env:PUBLIC_KEY}
+    CLIENT_SECRET: ${env:CLIENT_SECRET}
+    CLIENT_ID: ${env:CLIENT_ID}
+    APPLICATION_ID: ${env:APPLICATION_ID}
+    GUILD_ID: ${env:GUILD_ID}
+    SA_CLIENT_EMAIL: ${env:SA_CLIENT_EMAIL}
+    SA_PROJECT_ID: ${env:SA_PROJECT_ID}
+    SA_PRIVATE_KEY: ${env:SA_PRIVATE_KEY}
 
 functions:
   api:
