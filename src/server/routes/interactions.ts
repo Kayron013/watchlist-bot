@@ -38,7 +38,7 @@ route.post('/', async (req, res) => {
     }
     const resp = await handler(body);
     console.debug('\n\nInteraction Response...');
-    console.debug({ resp });
+    console.debug(util.inspect(resp, false, Infinity));
     res.send(resp);
   }
 });
