@@ -8,10 +8,10 @@ export const addList: DbFunc<Opts, string> = async opts => {
     await listRef.create({
       name: opts.name,
       description: opts.description || '',
-      createdAt: (FieldValue.serverTimestamp() as unknown) as Date,
+      createdAt: FieldValue.serverTimestamp() as unknown as Date,
       createdBy: opts.userID,
       bucket: '0',
-      isLocked: true,
+      isLocked: false,
     });
 
     return { success: true, data: 'List Added!' };
