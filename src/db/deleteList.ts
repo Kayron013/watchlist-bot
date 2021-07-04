@@ -19,7 +19,7 @@ export const deleteList: DbFunc<Opts, string> = async opts => {
       };
     }
 
-    await listRef.delete();
+    t.delete(listRef);
 
     return { success: true, data: `List ${msgFormat.code(opts.name)} has been deleted.` };
   });

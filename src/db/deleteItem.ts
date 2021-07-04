@@ -32,7 +32,7 @@ export const deleteItem: DbFunc<Opts, string> = async opts => {
 
     const item = itemDocs[0].data();
 
-    await itemDocs[0].ref.delete();
+    t.delete(itemDocs[0].ref);
 
     return { success: true, data: `${msgFormat.code(item.name)} has been deleted from ${msgFormat.code(opts.list)}.` };
   });
