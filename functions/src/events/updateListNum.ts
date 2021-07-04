@@ -9,10 +9,14 @@ export const updateListNum = f.document('owners/{owner}/lists/{list}').onWrite(a
 
   const ownerRef = change.after.ref.parent.parent!;
 
+  // Using 'set' instead of 'update' because the doc may not exist yet
   await ownerRef
-    .update({
-      listNum: firestore.FieldValue.increment(numChange),
-    })
+    .set(
+      {
+        listNum: firestore.FieldValue.increment(numChange),
+      },
+      { merge: true }
+    )
     .catch(e => {
       logger.error('Error updating list num', {
         list: change.after.ref.path,

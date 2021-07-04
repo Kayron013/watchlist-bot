@@ -7,7 +7,9 @@ export const updateListLength = f.document('owners/{owner}/lists/{list}/items/{i
 
   const lengthChange = change.before.exists ? -1 : 1;
 
-  const listRef = change.after.ref.parent.parent!;
+  const listRef = change.after.ref.parent.parent;
+
+  if (!listRef) return;
 
   await listRef
     .update({
