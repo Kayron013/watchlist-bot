@@ -11,6 +11,7 @@ export const addList: DbFunc<Opts, string> = async opts => {
       createdAt: FieldValue.serverTimestamp() as unknown as Date,
       createdBy: opts.userID,
       bucket: '0',
+      length: 0,
       isLocked: false,
     });
 

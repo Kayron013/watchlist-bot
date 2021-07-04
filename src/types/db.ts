@@ -2,7 +2,7 @@ import firebase from 'firebase-admin';
 
 export interface ListOwner {
   ownerID: string;
-  createdAt: Date;
+  listNum: number;
 }
 
 export interface List {
@@ -12,6 +12,7 @@ export interface List {
   createdBy: string;
   bucket: string;
   isLocked: boolean;
+  length: number;
 }
 
 export interface ListItem {
