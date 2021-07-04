@@ -36,10 +36,18 @@ route.post('/', async (req, res) => {
         data: { content: 'Unsupported Command' },
       });
     }
-    const resp = await handler(body);
-    console.debug('\n\nInteraction Response...');
-    console.debug(util.inspect(resp, false, Infinity));
-    res.send(resp);
+    try {
+      const resp = await handler(body);
+      console.debug('\n\nInteraction Response...');
+      console.debug(util.inspect(resp, false, Infinity));
+      res.send(resp);
+    } catch (e) {
+      console.error(e);
+      res.send({
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        data: { content: 'Internal Error' },
+      });
+    }
   }
 });
 
