@@ -34,6 +34,5 @@ jobs:
           SA_CLIENT_EMAIL: ${{ secrets.SA_CLIENT_EMAIL}}
           SA_PROJECT_ID: ${{ secrets.SA_PROJECT_ID}}
           SA_PRIVATE_KEY: ${{ secrets.SA_PRIVATE_KEY}}
-
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
